@@ -6,9 +6,9 @@ def parse_input():
     
     parser.add_argument(
         '--bd',
-        type=int,
+        type=str,
         required=True,
-        help='birth day of the user'
+        help='birth day of the user. (in YYYYMMDD format)'
     )
 
     parser.add_argument(
@@ -25,9 +25,12 @@ def printHello(who):
     print(f"Hello World, {who}!!")
 
 def cal_todayVbd(bd):
-    td = datetime.today().strftime('%d')
-    print(td)
-    return bd - int(td)
+    td = datetime.today()
+    birth_date = datetime.strptime(bd, '%Y%m%d')
+    if birth_date > td:
+        raise ValueError("Birthday cannot be in future!")
+    diff = td - birth_date
+    return diff.days
 
 if __name__ == "__main__":
     input_v = parse_input()
